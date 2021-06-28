@@ -1,4 +1,4 @@
-# Github Jobs
+# Dev Jobs
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) using Typescript, Styled Components.
 
