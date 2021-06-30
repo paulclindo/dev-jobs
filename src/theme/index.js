@@ -1,11 +1,12 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
-  *,*:after,*:before {
+  *,*::after,*::before {
     box-sizing: border-box;
   }
   body {
     font-family: 'Kumbh Sans', sans-serif;
+    margin: 0;
   }
 
 `;
@@ -20,7 +21,9 @@ const theme = {
     secondary: {
       700: "#6E8098",
       500: "#9DAEC2",
+      400: "#E7E8E9",
       300: "#F4F6F8",
+      200: "#F2F2F2",
     },
     neutral: {
       700: "#121721",

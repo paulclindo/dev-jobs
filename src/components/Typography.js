@@ -14,8 +14,12 @@ const StyledTypography = styled.h1`
   line-height: ${(props) => props.theme.typography[props.variant].lineHeight};
   font-weight: ${(props) => props.theme.typography[props.variant].fontWeight};
 `;
+type Props = {
+  variant: "h1" | "h2" | "h3" | "h4" | "body",
+  children: React.ReactNode,
+};
 
-export default function Typography({ variant, ...props }) {
+export default function Typography({ variant, ...props }: Props): JSX.Element {
   const Component = mapTypography[variant] ?? "span";
   return <StyledTypography as={Component} variant={variant} {...props} />;
 }

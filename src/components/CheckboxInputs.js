@@ -93,11 +93,11 @@ const Label = styled.label`
 
 const noop = () => {};
 
-interface SwitchProps {
-  on: boolean;
-  "aria-label": string;
-  onClick: Function;
-}
+type SwitchProps = {
+  on?: boolean,
+  "aria-label"?: string,
+  onClick: Function,
+};
 
 function Switch({
   on,
@@ -164,16 +164,16 @@ const CheckIcon = styled(IoCheckmark)`
   font-size: 20px;
 `;
 
-interface CheckboxProp {
-  on: boolean;
-  "aria-label": string;
-  onClick: Function;
-  label: string;
-}
+type CheckboxProp = {
+  on: boolean,
+  "aria-label"?: string,
+  onClick: Function,
+  label: string,
+};
 
 function Checkbox({
   on,
-  label = "lalala",
+  label,
   "aria-label": ariaLabel,
   onClick,
   ...props
