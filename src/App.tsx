@@ -1,6 +1,6 @@
 // @ts-ignore
 import React from "react";
-import { Switch, Route, useParams } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { fetchJobs } from "./api";
 import { useJobs } from "./context/job-provider";
 import Layout from "./layout/main";
