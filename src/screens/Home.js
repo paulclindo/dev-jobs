@@ -1,31 +1,20 @@
 import React from "react";
 import styled from "styled-components";
-import { Switch, Checkbox } from "../components/CheckboxInputs";
-import logoDevJobs from "../assets/desktop/logo.svg";
-import headerBg from "../assets/desktop/bg-pattern-header.svg";
+import { JobCard } from "../components/JobCard";
+import { Spinner } from "../components/lib";
+import { useJobs } from "../context/job-provider";
 import Input from "../components/Input";
 import { IoLocationSharp } from "react-icons/io5";
 import Button from "../components/Button";
-import JobCard from "../components/JobCard";
-import { Spinner } from "../components/lib";
+import { Checkbox } from "../components/CheckboxInputs";
 
-const Background = styled.div`
-  background: url(${headerBg}) center no-repeat;
-  height: 160px;
-`;
-const BodyBackground = styled.div`
-  background: ${(props) => props.theme.palette.secondary[200]};
-`;
-const Header = styled.header`
+const ULList = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 70px 30px;
   max-width: 1100px;
   margin: auto;
-  height: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-const Logo = styled.img`
-  width: 115px;
+  padding-left: 0;
 `;
 const Filters = styled.div`
   max-width: 1100px;
@@ -37,6 +26,7 @@ const Filters = styled.div`
   background: white;
   overflow: hidden;
   padding-right: 16px;
+  margin-bottom: 100px;
 `;
 
 const SearchInput = styled(Input)`
@@ -56,41 +46,9 @@ const FullTimeFilter = styled.div`
 const LocationIcon = styled(IoLocationSharp)`
   color: ${(props) => props.theme.palette.primary[700]};
 `;
-const ULList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 70px 30px;
-  max-width: 1100px;
-  margin: auto;
-  padding-left: 0;
-  padding-top: 120px;
-  padding-bottom: 120px;
-`;
-
-async function fetchJobs() {
-  const response = await fetch("https://remoteok.io/api");
-  const data = await response.json();
-  data.shift();
-  return data;
-}
 
 export default function Home(): JSX.Element {
-  const [state, setState] = React.useState({
-    status: "idle",
-    data: null,
-    error: null,
-  });
-
-  React.useEffect(() => {
-    setState({ status: "pending" });
-    fetchJobs()
-      .then((data) => {
-        setState({ status: "success", data });
-      })
-      .catch((err) => {
-        setState({ error: err, status: "error", data: null });
-      });
-  }, []);
+  const [state] = useJobs();
 
   const { status, data, error } = state;
   const isLoading = status === "idle" || status === "pending";
@@ -98,28 +56,22 @@ export default function Home(): JSX.Element {
   const isError = status === "error";
 
   return (
-    <BodyBackground>
-      <Background>
-        <Header>
-          <Logo src={logoDevJobs} />
-          <Switch />
-        </Header>
-        <Filters>
-          <SearchInput
-            type="search"
-            placeholder="Filter by title, companies, expertise…"
-          />
-          <LocationInput
-            type="string"
-            placeholder="Filter by location…"
-            icon={<LocationIcon fontSize="20px" />}
-          />
-          <FullTimeFilter>
-            <Checkbox label="Full Time Only" />
-          </FullTimeFilter>
-          <Button>Search</Button>
-        </Filters>
-      </Background>
+    <>
+      <Filters>
+        <SearchInput
+          type="search"
+          placeholder="Filter by title, companies, expertise…"
+        />
+        <LocationInput
+          type="string"
+          placeholder="Filter by location…"
+          icon={<LocationIcon fontSize="20px" />}
+        />
+        <FullTimeFilter>
+          <Checkbox label="Full Time Only" />
+        </FullTimeFilter>
+        <Button>Search</Button>
+      </Filters>
       {isError ? <p>{error}</p> : null}
       {isLoading ? (
         <Spinner />
@@ -143,6 +95,7 @@ export default function Home(): JSX.Element {
                 companyLogo={company_logo}
                 date={date}
                 location={location}
+                slug={slug}
               />
             )
           )}
@@ -150,6 +103,6 @@ export default function Home(): JSX.Element {
       ) : isSuccess && !data.length ? (
         <p>Not found any jobs yet. Try again later</p>
       ) : null}
-    </BodyBackground>
+    </>
   );
 }
