@@ -1,26 +1,37 @@
 // @ts-ignore
-
 import React from "react";
-import { GlobalStyles, theme } from "./theme";
-import { ThemeProvider } from "styled-components";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route, useParams } from "react-router-dom";
+import { fetchJobs } from "./api";
+import { useJobs } from "./context/job-provider";
+import Layout from "./layout/main";
 import Home from "./screens/Home";
 import JobDetails from "./screens/JobDetails";
+
 function App() {
+  const [, dispatch] = useJobs();
+
+  React.useEffect(() => {
+    dispatch({ type: "pending" });
+    fetchJobs()
+      .then((data) => {
+        dispatch({ type: "success", data });
+      })
+      .catch((err) => {
+        dispatch({ type: "rejected", err });
+      });
+  }, [dispatch]);
+
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      <Router>
-        <Switch>
-          <Route path="/">
-            <Home />
-          </Route>
-          <Route path="/:jobId">
-            <JobDetails />
-          </Route>
-        </Switch>
-      </Router>
-    </ThemeProvider>
+    <Layout>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route exact path="/:slug">
+          <JobDetails />
+        </Route>
+      </Switch>
+    </Layout>
   );
 }
 
