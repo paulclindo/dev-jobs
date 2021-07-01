@@ -55,7 +55,7 @@ const Logo = styled.img`
   object-fit: contain;
 `;
 
-export default function JobCard({
+function JobCard({
   slug,
   location,
   date,
@@ -69,7 +69,7 @@ export default function JobCard({
       <SLink to={`/${slug}`}>
         <Logo
           src={
-            companyLogo ??
+            companyLogo ||
             "https://i.pinimg.com/originals/f9/6a/26/f96a261e5a60d7d66b36e2850e3eb19b.png"
           }
           alt=""
@@ -88,3 +88,5 @@ export default function JobCard({
     </Wrapper>
   );
 }
+
+export { Time, JobType, Title, Place, JobCard };

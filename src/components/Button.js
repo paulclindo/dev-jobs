@@ -10,6 +10,8 @@ const StyledButton = styled.button`
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.4s;
+  text-align: center;
+  text-decoration: none;
   ${({ variant, theme }) =>
     variant === "primary" &&
     `
