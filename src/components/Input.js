@@ -26,11 +26,11 @@ const SInput = styled.input`
 const SearchIcon = styled(IoSearch)`
   color: ${(props) => props.theme.palette.primary[700]};
 `;
-export default function Input({ icon, placeholder, ...props }) {
+export default function Input({ icon, placeholder, id, ...props }) {
   return (
     <Wrapper {...props}>
-      <label htmlFor="search">{icon || <SearchIcon size="24px" />}</label>
-      <SInput id="search" placeholder={placeholder || "Enter desired job..."} />
+      <label htmlFor={id}>{icon || <SearchIcon size="24px" />}</label>
+      <SInput id={id} placeholder={placeholder || "Enter desired job..."} />
     </Wrapper>
   );
 }

@@ -60,10 +60,12 @@ export default function Home(): JSX.Element {
       <Filters>
         <SearchInput
           type="search"
+          id="search"
           placeholder="Filter by title, companies, expertise…"
         />
         <LocationInput
           type="string"
+          id="location"
           placeholder="Filter by location…"
           icon={<LocationIcon fontSize="20px" />}
         />
