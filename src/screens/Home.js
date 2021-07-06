@@ -7,6 +7,7 @@ import Input from "../components/Input";
 import { IoLocationSharp } from "react-icons/io5";
 import Button from "../components/Button";
 import { Checkbox } from "../components/CheckboxInputs";
+import { useAllJobs } from "../lib/jobs";
 
 const ULList = styled.ul`
   display: flex;
@@ -48,12 +49,7 @@ const LocationIcon = styled(IoLocationSharp)`
 `;
 
 export default function Home(): JSX.Element {
-  const [state] = useJobs();
-
-  const { status, data, error } = state;
-  const isLoading = status === "idle" || status === "pending";
-  const isSuccess = status === "success";
-  const isError = status === "error";
+  const { jobList, isLoading, isError, isSuccess, error } = useAllJobs();
 
   return (
     <>
@@ -77,9 +73,9 @@ export default function Home(): JSX.Element {
       {isError ? <p>{error}</p> : null}
       {isLoading ? (
         <Spinner />
-      ) : isSuccess && data.length > 0 ? (
+      ) : isSuccess && jobList.length > 0 ? (
         <ULList>
-          {data.map(
+          {jobList.map(
             ({
               slug,
               id,
@@ -102,7 +98,7 @@ export default function Home(): JSX.Element {
             )
           )}
         </ULList>
-      ) : isSuccess && !data.length ? (
+      ) : isSuccess && !jobList.length ? (
         <p>Not found any jobs yet. Try again later</p>
       ) : null}
     </>

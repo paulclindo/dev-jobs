@@ -6,6 +6,7 @@ import Typography from "../components/Typography";
 import Button from "../components/Button";
 import { Time, JobType, Place, Title } from "../components/JobCard";
 import cardBg from "../assets/desktop/bg-pattern-detail-footer.svg";
+import { useSingleJob } from "../lib/jobs";
 
 const Wrapper = styled.div`
   max-width: 730px;
@@ -89,27 +90,27 @@ const HowToApplyLink = styled(Typography)`
 export default function JobDetails() {
   const { slug } = useParams();
 
-  const [state, dispatch] = useJobs();
-
-  React.useEffect(() => {
-    dispatch({ type: "selected", slug });
-  }, [dispatch, slug]);
-  const { selected } = state;
+  const { singleJob } = useSingleJob(slug);
 
   return (
     <Wrapper>
       <IntroCard>
         <Logo
           src={
-            selected?.company_logo ||
+            singleJob?.company_logo ||
             "https://i.pinimg.com/originals/f9/6a/26/f96a261e5a60d7d66b36e2850e3eb19b.png"
           }
         />
         <IntroTitle>
-          <Company variant="h3">{selected?.company}</Company>
-          <Typography variant="body">{selected?.company}.com</Typography>
+          <Company variant="h3">{singleJob?.company}</Company>
+          <Typography variant="body">{singleJob?.company}.com</Typography>
         </IntroTitle>
-        <Button variant="secondary" as="a" href={selected?.url} target="_blank">
+        <Button
+          variant="secondary"
+          as="a"
+          href={singleJob?.url}
+          target="_blank"
+        >
           Company Site
         </Button>
       </IntroCard>
@@ -118,26 +119,26 @@ export default function JobDetails() {
           <div>
             <Flex>
               <Time variant="body">
-                {new Date(selected?.date).toLocaleString()}
+                {new Date(singleJob?.date).toLocaleString()}
               </Time>
               {" • "}
               <JobType variant="body">Full Time</JobType>
             </Flex>
-            <Title variant="h1">{selected?.position}</Title>
+            <Title variant="h1">{singleJob?.position}</Title>
             <Place variant="h4">
               Remote, Seoul, Tokyo, Mountain View, San Fransisco
             </Place>
           </div>
           <Button
             as="a"
-            href={selected?.apply_url}
+            href={singleJob?.apply_url}
             target="_blank"
             variant="primary"
           >
             Apply Now
           </Button>
         </ContentHeader>
-        <Description variant="body">{selected?.description}</Description>
+        <Description variant="body">{singleJob?.description}</Description>
       </ContentCard>
       <HowToApply>
         <HowToApplyTitle variant="h3">How to Apply</HowToApplyTitle>
